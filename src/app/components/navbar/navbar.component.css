@@ -1,0 +1,27 @@
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.navbar-container a,
+.navbar-container button {
+  padding: 5px 10px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  color: black;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.navbar-container a:hover,
+.navbar-container button:hover {
+  background-color: #0056b3;
+}
+
+.navbar-container .add-contact {
+  margin-left: 10px; 
+}

@@ -1,0 +1,12 @@
+<app-navbar></app-navbar>
+<div *ngIf="contact" class="contact-details">
+    <h2>{{ contact.firstname }}</h2>
+    <p>{{ contact.lastname }}</p>
+    <p>{{ contact.email }}</p>
+    <p>{{ getMaskedPassword() }}</p>
+    <p>{{ getCategoryName(contact.categoryid) }}</p>
+    <p>{{ contact.subcategory }}</p>
+    <p>{{ contact.phonenumber }}</p>
+    <p>{{ contact.birthdate }}</p>
+    <a [routerLink]="['/edit-contact', contact.contactid]">Edit</a>
+</div>

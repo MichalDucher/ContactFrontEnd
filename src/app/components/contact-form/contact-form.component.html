@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+<div class="contact-form">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="firstname">Name:</label>
+        <input id="firstname" formControlName="firstname" type="text">
+      </div>
+      <div>
+        <label for="lastname">Lastname:</label>
+        <input id="lastname" formControlName="lastname" type="text">
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input id="email" formControlName="email" type="email">
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input id="password" formControlName="password" [type]="showPassword ? 'text' : 'password'">
+        <button type="button" (click)="togglePasswordVisibility()">
+        {{ showPassword ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+      <div *ngIf="categories.length > 0">
+        <label>Category:</label><br>
+        <div *ngFor="let category of categories">
+          <input type="radio" [value]="category.categoryid" (change)="onCategoryChange()" formControlName="categoryid">
+          {{ category.categoryname }}
+        </div>
+      </div>
+      <div *ngIf="selectedCategory === 1">
+        <label for="subcategory">Subcategory:</label>
+        <select id="subcategory1" formControlName="subcategory">
+          <option *ngFor="let subcategory of subcategories" [value]="subcategory.subcategoryname">{{ subcategory.subcategoryname }}</option>
+        </select>
+      </div>
+      <div *ngIf="selectedCategory === 2">
+        <label for="subcategory">Subcategory:</label>
+        <input id="subcategory2" formControlName="subcategory" type="text" [disabled]="true" value="null">
+      </div>
+      <div *ngIf="selectedCategory === 3">
+        <label for="subcategory">Subcategory:</label>
+        <input id="subcategory3" formControlName="subcategory" type="text">
+      </div>
+      <div>
+        <label for="phonenumber">Phone number:</label>
+        <input id="phonenumber" formControlName="phonenumber" type="text">
+      </div>
+      <div>
+        <label for="birthdate">Birth date:</label>
+        <input id="birthdate" formControlName="birthdate" type="date">
+      </div>
+      <button type="submit" [disabled]="contactForm.invalid">{{ contactId ? 'Update' : 'Add' }} Contact</button>
+    </form>
+  </div>

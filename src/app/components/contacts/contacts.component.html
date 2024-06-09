@@ -1,0 +1,21 @@
+<app-navbar></app-navbar>
+<div class="contacts-container">
+    <h2>Contact list</h2>
+    <div class="filter-section">
+        <label for="caetgoryId">Filter by category</label>
+        <select id="categoryId" [(ngModel)]="selectedCategoryId" (change)="applyFilter()">
+            <option value="">Wszystkie</option>
+            <option *ngFor="let category of categories" [value]="category.categoryid">{{ category.categoryname }}</option>
+        </select>
+        <label for="searchTerm">Search by name</label>
+        <input type="text" id="searchTerm" [(ngModel)]="searchTerm" (input)="applyFilter()">
+    </div>
+    <ul>
+        <li *ngFor="let contact of filteredContacts">
+            <a [routerLink]="['/contact-details', contact.contactid]">{{ contact.firstname }}</a>
+            <p>{{ contact.lastname }}</p>
+            <p>Phonenumber: {{ contact.phonenumber }}</p>
+            <button *ngIf="isLoggedIn()" (click)="deleteContact(contact.contactid)">Delete</button>
+        </li>
+    </ul>
+</div>
