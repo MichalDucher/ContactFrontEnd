@@ -58,7 +58,7 @@ export class ContactsComponent implements OnInit{
   //Funkcja wywołująca service.deleteContact w celu usunięcia kontaktu
   deleteContact(id: number): void {
     this.service.deleteContact(id).subscribe(
-      () => this.contacts = this.contacts.filter(c => c.contactid != id),
+      () => this.filteredContacts = this.filteredContacts.filter(c => c.contactid != id),
       error => console.error('Error deleting contact', error)
     );
     
