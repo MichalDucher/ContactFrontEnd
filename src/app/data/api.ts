@@ -1,3 +1,5 @@
+//Plik exportujący End-Pointy do API potrzebne do komunikacji z back-endem
+
 export const BASE_URL = `https://contactapi-l069.onrender.com/api`;
 export const AUTH_URL = `${BASE_URL}/auth`;
 export const LOGIN_URL = `${AUTH_URL}/login`;

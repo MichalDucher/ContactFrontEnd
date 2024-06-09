@@ -12,8 +12,11 @@ import { SubcategoryService } from '../../services/subcategory.service';
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.css'
 })
+
+//Klasa tworząca formularz do edytowania lub dodawania nowego kontaktu - w zaleznosci od kontekstu wywołania
 export class ContactFormComponent implements OnInit{
 
+  //Deklaracja zmiennych i obiektów potrzebnych do formularza i jego zarządzania
   contactForm: FormGroup;
   contactId: number | null = null;
   showPassword: boolean = false;
@@ -21,6 +24,7 @@ export class ContactFormComponent implements OnInit{
   subcategories: Subcategory[] = [];
   selectedCategory: number | null = null;
 
+  //Konstruktor pryjmujący serwisy i niezbędne składniki do utworzenia formularza
   constructor(
     private formBuilder: FormBuilder,
     private service: ContactService,
@@ -29,6 +33,8 @@ export class ContactFormComponent implements OnInit{
     private route: ActivatedRoute,
     private router: Router
   ){
+
+    //Utworzenie contactForm
     this.contactForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -40,7 +46,9 @@ export class ContactFormComponent implements OnInit{
       birthdate: ['', Validators.required],
     });
   }
-
+  // Metoda inicjalizacyjna pobierająca dane konkretnego kontaktu(w przypadku edycji), oraz niezależnie 
+  // od przypadku edycji lub dodawania, pobiera dane o kategoriach i podkategoriach
+  
   ngOnInit(): void {
     this.contactId = 
       this.route.snapshot.paramMap.get('contactid') ? 
@@ -53,6 +61,7 @@ export class ContactFormComponent implements OnInit{
             const birthdate = new Date(data.birthdate);
             this.contactForm.patchValue({
               ...data,
+              //Zamiana formatu dany na ISO 8061(w celu uniknięcia konfilktu typów danych)
               birthdate: birthdate.toISOString().substring(0, 10)
             });
           },
@@ -70,6 +79,7 @@ export class ContactFormComponent implements OnInit{
       )
   }
 
+  //Funkcja wysyłająca (za pomocą serwisu) zapytanie PUT lub POST, w zależnosci od kontekstu wywołania
   onSubmit(): void {
     if(this.contactForm.valid){
       const contact = this.contactForm.value;
@@ -80,15 +90,18 @@ export class ContactFormComponent implements OnInit{
       if(contact.categoryid === 2)
         contact.subcategory = "Prywatny";
       
+      //Zamiana formatu dany na ISO 8061(w celu uniknięcia konfilktu typów danych)
       contact.birthdate = birthdate.toISOString();      
 
+      //Aktualizuje istniejący kontakt i przekierowuje na stronę główną (gdy id kontaktu istnieje)
       if(this.contactId){
         contact.contactid = this.contactId;
         this.service.updateContact(contact, this.contactId).subscribe(
           () => this.router.navigate(['/contacts']),
           error => console.error('Error updating contact', error)
-        );
-      } else {
+        );        
+      }//W przeciwnym przypadku dodaje nowy kontakt i przekierowuje na stronę główną 
+      else {
         this.service.addContact(contact).subscribe(
           () => this.router.navigate(['/contacts']),
           error => console.error('Error adding contact', error)
@@ -96,13 +109,19 @@ export class ContactFormComponent implements OnInit{
       }
     }
   }
+
+  //Funkcja odpowiedzialna za ustawianie widoczności hasła
   togglePasswordVisibility(){
     this.showPassword = !this.showPassword;
   }
 
+  //Funkcja aktualizująca formularz pod kątem kategorii/podkategorii 
   onCategoryChange(): void {
+    //Pobiera wybrane categoryid
     this.selectedCategory = parseInt(this.contactForm.get('categoryid')?.value, 10);
 
+    //Na podstawie categoryid blokuje i odblokowuje pole 'subcategory'. Dla ccategoryid=2(prywatny), blokuje możliwośc
+    //wybrania podkategorii i ustawią ją na 'Private'
     if (this.selectedCategory === 2) {
       this.contactForm.get('subcategory')?.setValue("Private");
       this.contactForm.get('subcategory')?.disable();

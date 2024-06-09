@@ -8,10 +8,18 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
+//Klasa tworząca i obsługująca komponent logowania
 export class LoginComponent {
 
+  //Deklaracja formularza
   loginForm: FormGroup;
 
+  //Konstruktor przyjmująct fb, authService i router, potrzebne do:
+  //  - zbudowania formularza logowania
+  //  - autentykacjimużytkownika
+  //  - przekierowań
+  //Ustawia pola username i password na wymagane, przez co nie ma możliwości wysłania pustego zapyania z poziomu aplikacji 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router){
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -19,6 +27,7 @@ export class LoginComponent {
     });
   }
 
+  //Metoda wysyłająca zapytanie POST za pomocą serwisu
   onSubmit(){
     if(this.loginForm.valid){
       const { username, password } = this.loginForm.value

@@ -1,3 +1,5 @@
+//Interfejs determinujący strukturę kontaktu
+
 export interface Contact {
     contactid: number
     firstname: string
