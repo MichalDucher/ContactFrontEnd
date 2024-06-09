@@ -38,8 +38,12 @@ export class ContactFormComponent implements OnInit{
     this.contactForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[A-Z])(?=.*\W).*$/)
+      ]],
       categoryid: ['', Validators.required],
       subcategory: ['', Validators.required],
       phonenumber: ['', Validators.required],
