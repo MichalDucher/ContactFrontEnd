@@ -48,7 +48,7 @@
       </div>
       <div>
         <label for="birthdate">Birth date:</label>
-        <input id="birthdate" formControlName="birthdate" type="date">
+        <input id="birthdate" formControlName="birthdate" type="date" [max]="today">
       </div>
       <button type="submit" [disabled]="contactForm.invalid">{{ contactId ? 'Update' : 'Add' }} Contact</button>
     </form>

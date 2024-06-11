@@ -23,6 +23,7 @@ export class ContactFormComponent implements OnInit{
   categories: Category[] = [];
   subcategories: Subcategory[] = [];
   selectedCategory: number | null = null;
+  today: string;
 
   //Konstruktor pryjmujący serwisy i niezbędne składniki do utworzenia formularza
   constructor(
@@ -49,6 +50,10 @@ export class ContactFormComponent implements OnInit{
       phonenumber: ['', Validators.required],
       birthdate: ['', Validators.required],
     });
+
+    const currentDate = new Date();
+    this.today = currentDate.toISOString().split('T')[0];
+
   }
   // Metoda inicjalizacyjna pobierająca dane konkretnego kontaktu(w przypadku edycji), oraz niezależnie 
   // od przypadku edycji lub dodawania, pobiera dane o kategoriach i podkategoriach
